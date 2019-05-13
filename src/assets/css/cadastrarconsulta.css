@@ -1,0 +1,43 @@
+/* Mudando cor da top bar */
+#top-bar {
+    color: black;
+}
+
+#menu ul li a {
+    color: black;
+}
+
+#cadastrarConsulta {
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cadastrarConsulta h1 {
+    font-size: 5em;
+    font-weight: 300;
+    align-self: flex-start;
+    margin-left: 100px;
+}
+
+.formulario {
+    /* display: flex; */
+    width: 50%;
+    height: 100%;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.formulario form {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.formulario form > * {
+    margin: 40px 10px;
+}

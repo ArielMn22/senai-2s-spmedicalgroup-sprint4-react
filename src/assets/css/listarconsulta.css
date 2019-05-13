@@ -1,0 +1,131 @@
+/* Mudando cor da top bar */
+#top-bar {
+    color: black;
+}
+
+#menu ul li a {
+    color: black;
+}
+
+#minhasConsultas {
+    width: 100%;
+
+    min-height: 100vh;
+    height: auto;
+
+    padding-left: 100px;
+    padding-right: 100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#minhasConsultas h1 {
+    font-size: 5em;
+    font-weight: 300;
+    align-self: flex-start;
+    margin-left: 100px;
+}
+
+/* Colunas */
+.colunas {
+    width: 100%;
+}
+
+.colunas tr {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.colunas tr th {
+    font-size: 2em;
+    width: 200px;
+}
+
+/* Tabela itens */
+.tabela {
+    width: 100%;
+    height: 700px;
+    border: 1px solid black;
+    border-radius: 20px;
+    overflow-y: auto;
+}
+
+.tabela table {
+    width: 100%;
+    border-spacing: 0;
+    /* height: 700px; */
+}
+
+.tabela th {
+    font-size: 2em;
+    text-align: center;
+}
+
+.tabela td {
+    font-size: 1.5em;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.tabela tr {
+    margin-bottom: 100px;
+}
+
+.tabela tr:nth-child(even) {
+    background-color: rgb(226, 226, 226);
+}
+
+.tabela tr:hover {
+    background-color: #ccc;
+}
+
+.tabela th,
+.tabela td {
+    width: 200px;
+    height: 90px;
+}
+
+#listar__accordion__div {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #d5d5d5;
+    min-height: 250px;
+    height: auto;
+    justify-content: center;
+}
+
+#listar__accordion__div>* {
+    /* margin: 10px 50px; */
+    margin: 15px 0px;
+}
+
+.listar__accordion__div__item {
+    /* text-align: center; */
+    /* flex-basis: 350px; */
+
+    text-align: center;
+    -webkit-flex-basis: 350px;
+    flex-basis: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+}
+
+.listar__accordion__div__item h3 {
+    font-size: 1.5em;
+}
+
+.listar__accordion__div__item p {
+    font-size: 1.4em;
+}
+
+.accordion-form {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 100px;
+    justify-content: space-around;
+}

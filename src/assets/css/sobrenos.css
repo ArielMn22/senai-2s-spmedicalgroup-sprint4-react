@@ -1,0 +1,67 @@
+
+#sobre__banner {
+    height: 100vh;
+    width: 100%;
+    background-image: url("../../assets/imgs/bg7.jpg");
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sobre__banner__text {
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 25vw;
+    z-index: 2;
+}
+
+#sobre__banner__layer {
+    background-color: rgba(131, 190, 223, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+}
+
+#sobre__banner__text > * {
+    margin: 20px 0;
+}
+
+#sobre__banner h1 {
+    font-size: 5em;
+    font-weight: 100;
+}
+
+#sobre__banner p {
+    font-size: 2em;
+    font-weight: 100;
+}
+
+
+#sobre__nossaFilosofia__section {
+    display: flex;
+}
+
+#sobre__nossaFilofia__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 10vw;
+    width: 100%;
+}
+
+#sobre__nossaFilofia__img img {
+    /* height: 100%; */
+}
+
+/* MIRROR */
+
+#sobre__nossaFilofia__text > * {
+    margin: 40px 0;
+}

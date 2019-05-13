@@ -1,0 +1,27 @@
+#rodape {
+    width: 100%;
+    height: 350px;
+    background-color: #83BEDF;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.rodape-coluna a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.5em;
+}
+
+.rodape-coluna li:hover {
+    transform: scale(1.1);
+    transition: all .3s;
+}
+
+.rodape-coluna ul > *, .rodape-coluna > * {
+    margin: 20px 0;
+}
+
+.rodape-coluna li {
+    list-style-type: none;
+}

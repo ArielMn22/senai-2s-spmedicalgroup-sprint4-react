@@ -1,0 +1,311 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Bahnschrift";
+  font-size: 14px;
+  outline: none;
+}
+
+/* @font-face {
+  font-family: "Bahnschrift";
+  src: url("../fonts/bahnschrift._semibold.tff"),
+    url("../fonts/bahnschrift._bold.tff"),
+    url("../fonts/bahnschrift._light.tff"),
+    url("../fonts/bahnschrift._reg.tff");
+} */
+
+/* Menu */
+
+#top-bar {
+  display: flex;
+  height: 72px;
+  width: 100%;
+  /* background-color: black; test */
+
+  align-items: center;
+  color: white;
+  position: fixed;
+  z-index: 999;
+}
+
+#logo {
+  flex: 1;
+
+  padding: 0 20px;
+  align-items: center;
+}
+
+#logo .logo-img {
+  margin-right: 20px;
+}
+
+#logo p {
+  font-size: 2em;
+}
+
+.logo-img img {
+  height: 50px;
+}
+
+#menu {
+  flex: 1;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+#menu ul {
+  list-style-type: none;
+
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+#menu ul li {
+  display: flex;
+  height: 100%;
+
+  align-items: center;
+  transition: all 0.3s;
+}
+
+#menu ul li:hover {
+  background-color: #81df99;
+  border-radius: 0 0 10px 10px;
+  /* transform: scale(1.1); */
+}
+
+#menu ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 27px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#menu ul li a i {
+  margin-right: 5px;
+}
+
+/* Tricks */
+.flex-container {
+  display: flex;
+}
+
+.degrade {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.88+0,0.59+2,0+100 */
+  background: -moz-linear-gradient(top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.59) 2%,
+    rgba(0, 0, 0, 0) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.59) 2%,
+    rgba(0, 0, 0, 0) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.59) 2%,
+    rgba(0, 0, 0, 0) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0000000', endColorstr='#00000000', GradientType=0);
+  /* IE6-9 */
+}
+
+/* Buttons */
+.green-btn {
+  padding: 1em;
+  background-color: #2fff12;
+  border: none;
+  border-radius: 100px;
+  color: black;
+  transition: all 0.3s;
+  box-shadow: 4px 4px 4px rgb(87, 87, 87);
+  font-size: 2em;
+  text-decoration: none;
+}
+
+.green-btn:hover {
+  background-color: #83bedf;
+  color: white;
+  transform: scale(1.1);
+}
+
+.squared-btn {
+  width: 100px;
+  color: black;
+  background-color: #83bedf;
+  padding: 5px;
+  border: none;
+  border-radius: 100px;
+  color: black;
+  transition: all 0.3s;
+  box-shadow: 4px 4px 4px #ccc;
+  font-size: 1.4em;
+}
+
+.squared-btn:hover {
+  color: #83bedf;
+  background-color: black;
+}
+
+.inpt-round {
+  position: relative;
+}
+
+/* Inputs */
+.inpt-round input,
+.select-round select,
+.text-round textarea {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-indent: 10px;
+  padding: 10px 0;
+  font-size: 1.4em;
+  resize: none;
+  font-weight: 300;
+  transition: all 0.3s;
+}
+
+.inpt-round input:focus,
+.select-round select:focus,
+.text-round textarea:focus {
+  border: 1px solid green;
+}
+
+.inpt-round input:focus,
+.select-round select:focus,
+.text-round textarea:focus {
+  border: 1px solid green;
+}
+
+/* Labels */
+.inpt-label,
+.select-label,
+.text-label {
+  position: absolute;
+  left: 10px;
+  z-index: 10;
+  /* transform-origin: 0 0; */
+  transition: all 0.3s;
+  top: 10px;
+  font-size: calc(1.6em * 0.9);
+}
+
+/* Input transition */
+#inpt-round:focus+.inpt-label {
+  transform: translateY(-35px) scale(0.9);
+  color: black;
+}
+
+#inpt-round:not(:placeholder-shown)+.inpt-label {
+  transform: translateY(-35px) scale(0.9);
+  color: black;
+}
+
+.select-round {
+  position: relative;
+}
+
+/* .select-label {
+    font-size: calc(1.4em * 0.9);
+} */
+
+#select-round+span {
+  transform: translateY(-35px) scale(0.9);
+}
+
+.text-round {
+  position: relative;
+}
+
+#text-round:focus+.text-label {
+  transform: translateY(-35px) scale(0.9);
+  color: black;
+}
+
+#text-round:not(:placeholder-shown)+.text-label {
+  transform: translateY(-30px) scale(0.9);
+  color: black;
+}
+
+/* Estilizando tipografia */
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2.5em;
+}
+
+h3 {
+  font-size: 2.3em;
+}
+
+h4 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 2em;
+}
+
+/* Paddings */
+.pa-all-g {
+  padding: 40px;
+}
+
+.ma-top-m {
+  margin-top: 20px;
+}
+
+.ma-top-g {
+  margin-top: 40px;
+}
+
+.ma-top-gg {
+  margin-top: 130px;
+}
+
+/* Tamanhos de input */
+.grande {
+  width: 350px;
+}
+
+.medio {
+  width: 200px;
+}
+
+.pequeno {
+  width: 100px;
+}
+
+.texto {
+  width: 500px;
+  height: 200px;
+}
+
+.btn-green-yellow {
+  background-color: greenyellow;
+  width: 100px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 4px 4px 4px 4px #ccc;
+}
+
+.btn-red {
+  background-color: red;
+  width: 100px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 4px 4px 4px 4px #ccc;
+}
