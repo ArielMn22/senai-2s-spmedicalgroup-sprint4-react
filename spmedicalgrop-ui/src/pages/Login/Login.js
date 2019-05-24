@@ -4,7 +4,8 @@ import Rodape from "../../components/Rodape";
 import "../../assets/css/login.css";
 import "../../assets/css/style.css";
 import Axios from "axios";
-import {Link} from 'react-router-dom';
+import api from "../../services/api";
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
   constructor() {
@@ -25,24 +26,35 @@ export default class Login extends Component {
     console.log(_email);
     console.log(_senha);
 
-    Axios.post(
-      "http://localhost:5000/api/login",
-      {
+    api
+      .usuarios({
         email: _email,
         senha: _senha
-      },
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    )
+      })
+      .Login()
       .then(data => {
         localStorage.setItem("spmedicalgroup-usuario", data.data.token);
         this.props.history.push("/minhasconsultas");
       })
       .catch(erro => console.log(erro));
 
+    // Axios.post(
+    //   "http://192.168.3.143:5000/api/login",
+    //   {
+    //     email: _email,
+    //     senha: _senha
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     }
+    //   }
+    // )
+    //   .then(data => {
+    //     localStorage.setItem("spmedicalgroup-usuario", data.data.token);
+    //     this.props.history.push("/minhasconsultas");
+    //   })
+    //   .catch(erro => console.log(erro));
   }
 
   atualizaEstadoEmail(event) {
@@ -92,9 +104,16 @@ export default class Login extends Component {
                   <button className="squared-btn">Login</button>
                 </label>
               </form>
-                <div className="login__cliqueAqui__div">
-                <span>Ainda não é cadastrado?<br /><Link to="/cadastrarusuario" className="login__a__cliqueaqui">Clique aqui</Link> para se cadastrar.</span>
-                </div>
+              <div className="login__cliqueAqui__div">
+                <span>
+                  Ainda não é cadastrado?
+                  <br />
+                  <Link to="/cadastrarusuario" className="login__a__cliqueaqui">
+                    Clique aqui
+                  </Link>{" "}
+                  para se cadastrar.
+                </span>
+              </div>
             </div>
           </section>
         </main>

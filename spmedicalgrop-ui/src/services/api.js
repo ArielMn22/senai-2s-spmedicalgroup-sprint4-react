@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/api/";
+const url = "http://192.168.3.143:5000/api/";
+// const url = "http://localhost:5000/api/";
 
 export default {
   consultas(consulta) {
@@ -107,5 +108,18 @@ export default {
           }
         })
     };
+  },
+  usuarios(usuario) {
+    const auth = "bearer " + localStorage.getItem("spmedicalgroup-usuario");
+
+    return {
+      Login: () =>
+      axios.post(url + "login", usuario,{
+        headers: {
+          Authorization: auth,
+          "Content-Type": "application/json"
+        }
+      })
+    }
   }
 };
