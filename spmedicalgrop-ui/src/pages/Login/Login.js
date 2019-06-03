@@ -3,7 +3,6 @@ import Cabecalho from "../../components/Cabecalho";
 import Rodape from "../../components/Rodape";
 import "../../assets/css/login.css";
 import "../../assets/css/style.css";
-import Axios from "axios";
 import api from "../../services/api";
 import { Link } from "react-router-dom";
 

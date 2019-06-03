@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "../../assets/css/style.css";
 import "../../assets/css/index.css";
 import Rodape from '../../components/Rodape';
-import Woman from "../../assets/imgs/woman.jpg";
 import Lobby1 from "../../assets/imgs/lobby2.jpg";
 import Lobby2 from "../../assets/imgs/bg1.jpg";
 import Cabecalho from '../../components/Cabecalho';
@@ -16,7 +15,7 @@ class App extends Component {
         <main>
           <section id="banner">
             <h1>A clínica que cuida da sua família!</h1>
-            <Link to="/contato" className="green-btn">Fale Conosco</Link>
+            <a href="#localizacao" className="green-btn">Fale Conosco</a>
           </section>
           <section id="areaPaciente">
             <div id="imgPaciente">
