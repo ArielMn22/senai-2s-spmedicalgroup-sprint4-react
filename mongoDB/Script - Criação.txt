@@ -1,0 +1,5 @@
+$ use spmedicalgroupAriel
+
+$ db.createCollection("consultas")
+
+$ db.consultas.insertOne({"descricao" : "Passa bem! Próxima consulta em 3 meses!", "latitude" : "-23.5364985", "longitude" : "-46.6483357", "idConsulta" : 1, "idPaciente" : 1, "especialidade" : "Cardiologista"})
