@@ -18,7 +18,10 @@ export default class CadastrarConsulta extends Component {
       horario: "",
       status: "",
       preco: "",
-      descricao: ""
+      descricao: "",
+
+      latitude: "",
+      longitude: ""
     };
   }
 
@@ -50,6 +53,10 @@ export default class CadastrarConsulta extends Component {
     this.setState({ descricao: event.target.value });
   }
 
+  atualizaEstado(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
   componentDidMount() {
     api
       .pacientes()
@@ -79,26 +86,25 @@ export default class CadastrarConsulta extends Component {
   consultaPost(event) {
     event.preventDefault();
 
-    let consulta = {
-      idPaciente: this.state.paciente,
-      idMedico: this.state.medico,
-      dataConsulta: this.state.dataConsulta + "T" + this.state.horario,
-      observacoes: this.state.descricao,
-      preco: this.state.preco,
-      idStatus: this.state.status
+    let consultaViewModel = {
+      consulta: {
+        idPaciente: this.state.paciente,
+        idMedico: this.state.medico,
+        dataConsulta: this.state.dataConsulta + "T" + this.state.horario,
+        observacoes: this.state.descricao,
+        preco: this.state.preco,
+        idStatus: this.state.status
+      },
+      consultaLocalizacao: {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
+      }
     };
 
-    console.log(consulta);
+    // console.log(consultaViewModel);
 
-    // api.consultas(consulta).post()
-    // .then(data => {
-    //     console.log(data);
-    // })
-    // .catch(
-    //     erro => console.log(erro)
-    // );
     api
-      .consultas(consulta)
+      .consultas(consultaViewModel)
       .cadastrarConsulta()
       .then(data => console.log(data))
       .catch(erro => console.log(erro));
@@ -163,6 +169,32 @@ export default class CadastrarConsulta extends Component {
                     onChange={this.atualizaEstadoDataConsulta.bind(this)}
                   />
                   <span className="inpt-label">Data da consulta</span>
+                </label>
+
+                <label className="inpt-round">
+                  <input
+                    className="medio"
+                    id="inpt-round"
+                    type="text"
+                    name="latitude"
+                    placeholder="&nbsp;"
+                    value={this.state.latitude}
+                    onChange={this.atualizaEstado.bind(this)}
+                  />
+                  <span className="inpt-label">Latitude</span>
+                </label>
+
+                <label className="inpt-round">
+                  <input
+                    className="medio"
+                    id="inpt-round"
+                    type="text"
+                    name="longitude"
+                    placeholder="&nbsp;"
+                    value={this.state.longitude}
+                    onChange={this.atualizaEstado.bind(this)}
+                  />
+                  <span className="inpt-label">Longitude</span>
                 </label>
 
                 <label className="inpt-round">

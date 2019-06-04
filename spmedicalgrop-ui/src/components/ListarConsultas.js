@@ -63,9 +63,6 @@ export default class ListarConsultas extends Component {
       listaNova.push(_consulta);
     });
 
-    console.log("listaNova");
-    console.log(listaNova);
-
     this.setState({ listaConsultasFiltrada: listaNova });
   }
 
