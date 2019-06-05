@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = "http://192.168.3.143:5000/api/";
+const url = "http://192.168.0.4:5000/api/";
+// const url = "http://192.168.3.143:5000/api/";
 // const url = "http://localhost:5000/api/";
 
 export default {
