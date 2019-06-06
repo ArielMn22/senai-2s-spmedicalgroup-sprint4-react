@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#consultas__mapa__container {
+    width: 99vw;
+    height: 60vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#consultas__mapa_Map {
+    display: flex;
+    width: 100%;
+    /* width: 99vw; */
+    height: 50vh;
+    position: relative;
+    /* justify-content: center; */
+}
