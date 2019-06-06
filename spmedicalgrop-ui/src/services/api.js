@@ -115,12 +115,24 @@ export default {
 
     return {
       Login: () =>
-      axios.post(url + "login", usuario,{
-        headers: {
-          Authorization: auth,
-          "Content-Type": "application/json"
-        }
-      })
-    }
+        axios.post(url + "login", usuario, {
+          headers: {
+            Authorization: auth,
+            "Content-Type": "application/json"
+          }
+        })
+    };
+  },
+  consultasLocalidade() {
+    const auth = "bearer " + localStorage.getItem("spmedicalgroup-usuario");
+
+    return {
+      ListarConsultasLocalidade: () =>
+        axios.get(url + "consultas/mongo", {
+          headers: {
+            Authorization: auth
+          }
+        })
+    };
   }
 };

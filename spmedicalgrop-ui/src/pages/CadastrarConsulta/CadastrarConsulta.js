@@ -21,7 +21,7 @@ export default class CadastrarConsulta extends Component {
       descricao: "",
 
       latitude: "",
-      longitude: ""
+      longitude: "",
     };
   }
 
