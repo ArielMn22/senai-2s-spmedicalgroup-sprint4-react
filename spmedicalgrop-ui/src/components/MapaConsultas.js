@@ -25,38 +25,90 @@ export class MapaConsultas extends Component {
       showingInfoWindow: false, //Esconde ou mostra as informações do local.
       activeMarker: {}, //Mostra o ícone ativado.
       selectedPlace: {}, //Mostra as informações em cima do local.
-      listaConsultasLocalidade: []
+      listaConsultasLocalidade: [],
     };
   }
 
   configurarConsultas() {
-    let listaAntiga = this.state.listaConsultasLocalidade;
-    let lista = listaAntiga.map(evento => {
+    let lista = this.state.listaConsultasLocalidade.map(evento => {
       return {
         ...evento,
         mostraInfo: false,
-        selecionado: false,
-        marcadorAtivo: false
-      }
-    })
+        selecionado: {},
+        marcadorAtivo: {}
+      };
+    });
 
-    this.setState({listaConsultasLocalidade : lista});
-    console.log(this.state.listaConsultasLocalidade)
+    this.setState({ listaConsultasLocalidade: lista });
+    console.log(this.state.listaConsultasLocalidade);
   }
 
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = (props, marker, e) => {
+    console.log("e", e);
+    console.log("props", props);
+    console.log("marker", marker);
+    console.log("props.id", props.id);
+
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
 
+    console.log("selected", this.state.selectedPlace);
+    console.log("activeMarker", this.state.activeMarker);
+
+    let newList = [];
+
+    this.state.listaConsultasLocalidade.map((consulta, i) => {
+      if (consulta.id == props.id) {
+        consulta.mostraInfo = true;
+        // consulta.selecionado = props;
+        // consulta.marcadorAtivo = marker;
+        console.log("consulta.mostraInfo", consulta.mostraInfo);
+      }
+
+      newList.push(consulta);
+    });
+
+    this.setState({ listaConsultasLocalidade: newList });
+    console.log("Listaaa", this.state.listaConsultasLocalidade);
+  };
+
   onClose = props => {
     if (this.state.showingInfoWindow) {
+      this.state.listaConsultasLocalidade.map((consulta, i) => {
+        if (consulta.id == props.id) {
+          consulta.mostraInfo = false;
+          // consulta.selecionado = props;
+          // consulta.marcadorAtivo = marker;
+          console.log("consulta.mostraInfo", consulta.mostraInfo);
+        }
+      });
+
       this.setState({
         showingInfoWindow: false,
         activeMarker: null
       });
+    }
+  };
+
+  onMapClicked = props => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        // activeMarker: null
+      });
+
+      this.state.listaConsultasLocalidade.map((consulta, i) => {
+        consulta.mostraInfo = true;
+        // consulta.selecionado = props;
+        // consulta.marcadorAtivo = marker;
+        console.log("consulta.mostraInfo", consulta.mostraInfo);
+      });
+
+      console.log("selected", this.state.selectedPlace);
+      console.log("activeMarker", this.state.activeMarker);
     }
   };
 
@@ -79,36 +131,53 @@ export class MapaConsultas extends Component {
         <div className="ma-top-m" id="consultas__mapa_Map">
           <Map
             google={this.props.google}
-            zoom={14}
+            zoom={3}
             style={mapStyles}
+            onClick={this.onMapClicked.bind(this)}
             initialCenter={{
               lat: -23.5364933,
               lng: -46.6483345
             }}
           >
-            {this.state.listaConsultasLocalidade.map(consultaLocalidade => {
-              return (
-                <Marker
-                  position={{
-                    lat: consultaLocalidade.latitude,
-                    lng: consultaLocalidade.longitude
-                  }}
-                  id={consultaLocalidade.id}
-                  onClick={this.onMarkerClick.bind(this)}
-                  name={"Kenyatta International Convention Centre"}
-                >
-                  <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}
-                    onClose={this.onClose.bind(this)}
-                  >
-                    <div>
-                      <h4>{this.state.selectedPlace.name}</h4>
-                    </div>
-                  </InfoWindow>
-                </Marker>
-              );
-            })}
+            {this.state.listaConsultasLocalidade.map(
+              (consultaLocalidade, index) => {
+                return (
+                  <Marker
+                    onClick={this.onMarkerClick.bind(this)}
+                    id={consultaLocalidade.id}
+                    especialidade={consultaLocalidade.especialidade}
+                    medicoNome={consultaLocalidade.medicoNome}
+                    medicoEmail={consultaLocalidade.medicoEmail}
+                    pacienteEmail={consultaLocalidade.pacienteEmail}
+                    pacienteNome={consultaLocalidade.pacienteNome}
+                    descricao={consultaLocalidade.descricao}
+                    status={consultaLocalidade.status}
+                    data={consultaLocalidade.dataConsulta}
+                    preco={consultaLocalidade.preco}
+                    position={{
+                      lat: consultaLocalidade.latitude,
+                      lng: consultaLocalidade.longitude
+                    }}
+                    name={consultaLocalidade.especialidade}
+                  />
+                );
+              }
+            )}
+
+            <InfoWindow
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              onClick={this.onClose.bind(this)}
+            >
+              <div>
+                <h2>{this.state.activeMarker.especialidade}</h2>
+                <ul>
+                  <li><p>Médico: {this.state.activeMarker.medicoNome}</p></li>
+                  <li><p>Paciente: {this.state.activeMarker.pacienteNome}</p></li>
+                </ul>
+              </div>
+            </InfoWindow>
+
             {/* <Marker
               onClick={this.onMarkerClick}
               name={"Kenyatta International Convention Centre"}
