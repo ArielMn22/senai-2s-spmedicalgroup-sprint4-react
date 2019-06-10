@@ -25,7 +25,7 @@ export class MapaConsultas extends Component {
       showingInfoWindow: false, //Esconde ou mostra as informações do local.
       activeMarker: {}, //Mostra o ícone ativado.
       selectedPlace: {}, //Mostra as informações em cima do local.
-      listaConsultasLocalidade: [],
+      listaConsultasLocalidade: []
     };
   }
 
@@ -44,10 +44,11 @@ export class MapaConsultas extends Component {
   }
 
   onMarkerClick = (props, marker, e) => {
-    console.log("e", e);
-    console.log("props", props);
-    console.log("marker", marker);
-    console.log("props.id", props.id);
+    // Check code
+    // console.log("e", e);
+    // console.log("props", props);
+    // console.log("marker", marker);
+    // console.log("props.id", props.id);
 
     this.setState({
       selectedPlace: props,
@@ -55,17 +56,18 @@ export class MapaConsultas extends Component {
       showingInfoWindow: true
     });
 
-    console.log("selected", this.state.selectedPlace);
-    console.log("activeMarker", this.state.activeMarker);
+    // Check code
+    // console.log("selected", this.state.selectedPlace);
+    // console.log("activeMarker", this.state.activeMarker);
 
     let newList = [];
 
     this.state.listaConsultasLocalidade.map((consulta, i) => {
       if (consulta.id == props.id) {
         consulta.mostraInfo = true;
-        // consulta.selecionado = props;
-        // consulta.marcadorAtivo = marker;
-        console.log("consulta.mostraInfo", consulta.mostraInfo);
+
+        // Check code
+        // console.log("consulta.mostraInfo", consulta.mostraInfo);
       }
 
       newList.push(consulta);
@@ -80,9 +82,8 @@ export class MapaConsultas extends Component {
       this.state.listaConsultasLocalidade.map((consulta, i) => {
         if (consulta.id == props.id) {
           consulta.mostraInfo = false;
-          // consulta.selecionado = props;
-          // consulta.marcadorAtivo = marker;
-          console.log("consulta.mostraInfo", consulta.mostraInfo);
+          // Check code
+          // console.log("consulta.mostraInfo", consulta.mostraInfo);
         }
       });
 
@@ -96,19 +97,18 @@ export class MapaConsultas extends Component {
   onMapClicked = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
-        showingInfoWindow: false,
+        showingInfoWindow: false
         // activeMarker: null
       });
 
       this.state.listaConsultasLocalidade.map((consulta, i) => {
         consulta.mostraInfo = true;
-        // consulta.selecionado = props;
-        // consulta.marcadorAtivo = marker;
         console.log("consulta.mostraInfo", consulta.mostraInfo);
       });
 
-      console.log("selected", this.state.selectedPlace);
-      console.log("activeMarker", this.state.activeMarker);
+      // Check code
+      // console.log("selected", this.state.selectedPlace);
+      // console.log("activeMarker", this.state.activeMarker);
     }
   };
 
@@ -132,6 +132,7 @@ export class MapaConsultas extends Component {
           <Map
             google={this.props.google}
             zoom={3}
+            center={this.state.selectedPlace.position}
             style={mapStyles}
             onClick={this.onMapClicked.bind(this)}
             initialCenter={{
@@ -172,25 +173,21 @@ export class MapaConsultas extends Component {
               <div>
                 <h2>{this.state.activeMarker.especialidade}</h2>
                 <ul>
-                  <li><p>Médico: {this.state.activeMarker.medicoNome}</p></li>
-                  <li><p>Paciente: {this.state.activeMarker.pacienteNome}</p></li>
+                  <li>
+                    <p>Médico: {this.state.activeMarker.medicoNome}.</p>
+                  </li>
+                  <li>
+                    <p>Paciente: {this.state.activeMarker.pacienteNome}.</p>
+                  </li>
+                  <li>
+                    <p>Data Consulta: {this.state.activeMarker.data}hs.</p>
+                  </li>
+                  <li>
+                    <p>Descrição: {this.state.activeMarker.descricao}</p>
+                  </li>
                 </ul>
               </div>
             </InfoWindow>
-
-            {/* <Marker
-              onClick={this.onMarkerClick}
-              name={"Kenyatta International Convention Centre"}
-            />
-            <InfoWindow
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}
-              onClose={this.onClose}
-            >
-              <div>
-                <h4>{this.state.selectedPlace.name}</h4>
-              </div>
-            </InfoWindow> */}
           </Map>
         </div>
       </div>
@@ -199,5 +196,5 @@ export class MapaConsultas extends Component {
 }
 
 export default GoogleApiWrapper({
-  // apiKey: ''
+  // apiKey: 'Empty for development purposes.'
 })(MapaConsultas);
