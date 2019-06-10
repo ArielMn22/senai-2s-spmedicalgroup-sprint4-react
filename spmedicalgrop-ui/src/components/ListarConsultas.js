@@ -106,6 +106,7 @@ export default class ListarConsultas extends Component {
               <th>Data da Consulta</th>
               <th>Preço</th>
               <th>Status</th>
+              {/* <th>Localização</th> */}
               <th />
             </tr>
           </table>
@@ -131,6 +132,7 @@ export default class ListarConsultas extends Component {
                       ) : (
                         <td style={{ color: "#2393ff" }}>{consulta.status}</td>
                       )}
+                      {/* <td>Lo</td> */}
                       <td>
                         {consulta.accord === true ? (
                           <button

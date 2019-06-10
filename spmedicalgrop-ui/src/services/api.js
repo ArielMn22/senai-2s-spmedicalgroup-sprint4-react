@@ -128,7 +128,7 @@ export default {
 
     return {
       ListarConsultasLocalidade: () =>
-        axios.get(url + "consultas/mongo", {
+        axios.get(url + "consultas/mongoLogado", {
           headers: {
             Authorization: auth
           }
