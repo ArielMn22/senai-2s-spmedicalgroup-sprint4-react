@@ -56,7 +56,7 @@ class ConsultasAccordion extends Component {
         if (status.id == novaConsulta.idStatus)
         {
           novaConsulta.nomeStatus = status.nome;
-        } 
+        }
       });
 
       this.props.consultaAtualizada(novaConsulta);
@@ -70,6 +70,7 @@ class ConsultasAccordion extends Component {
     consulta.edit = !consulta.edit;
 
     this.setState({ consultaAntiga: consulta });
+    this.setState({ novoStatus : consulta.status, novaDescricao : consulta.descricao}); // Preenche os locais para que sejam alterados
   }
 
   atualizaEstadoStatus(event) {
@@ -195,7 +196,7 @@ class ConsultasAccordion extends Component {
                       return <option value={status.id}>{status.nome}</option>;
                     })}
                   </select>
-                </label>{" "}
+                </label>
               </div>
 
               <div className="listar__accordion__div__item">

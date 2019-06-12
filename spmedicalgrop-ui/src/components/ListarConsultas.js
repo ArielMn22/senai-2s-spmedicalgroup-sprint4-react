@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import api from "../services/api";
 import "../assets/css/style.css";
 import ConsultasAccordion from "./ConsultasAccordion";
+import { MapaConsultas } from "./MapaConsultas";
 
 export default class ListarConsultas extends Component {
   constructor() {
@@ -132,7 +133,6 @@ export default class ListarConsultas extends Component {
                       ) : (
                         <td style={{ color: "#2393ff" }}>{consulta.status}</td>
                       )}
-                      {/* <td>Lo</td> */}
                       <td>
                         {consulta.accord === true ? (
                           <button
@@ -224,9 +224,7 @@ export default class ListarConsultas extends Component {
                         <div />
                       ) : (
                         <ConsultasAccordion
-                          consultaAtualizada={this.atualizarListaConsultas.bind(
-                            this
-                          )}
+                          consultaAtualizada={this.atualizarListaConsultas.bind(this)}
                           consulta={consulta}
                         />
                       )}
@@ -250,6 +248,7 @@ export default class ListarConsultas extends Component {
               <th>E-mail do paciente</th>
               <th>E-mail do médico</th>
               <th>Status</th>
+              <th>Localização</th>
               <th />
             </tr>
           </table>
@@ -276,6 +275,17 @@ export default class ListarConsultas extends Component {
                       ) : (
                         <td style={{ color: "#2393ff" }}>{consulta.status}</td>
                       )}
+                      {consulta.latitude != null ? (
+                        <td onClick={() => {
+                          console.log("funciona!");
+                          console.log(consulta.id);
+                          this.props.verNoMapa(consulta.id);
+                        }}>
+                          Mapa
+                        </td>
+                      ) : (
+                        <td> ‏‏‎ </td> // Invisible character
+                      )}
                       <td>
                         {consulta.accord === true ? (
                           <button
@@ -300,9 +310,7 @@ export default class ListarConsultas extends Component {
                         <div />
                       ) : (
                         <ConsultasAccordion
-                          consultaAtualizada={this.atualizarListaConsultas.bind(
-                            this
-                          )}
+                          consultaAtualizada={this.atualizarListaConsultas.bind(this)}
                           consulta={consulta}
                         />
                       )}

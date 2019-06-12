@@ -7,6 +7,19 @@ import ListarConsultas from "../../components/ListarConsultas";
 import MapaConsultas from "../../components/MapaConsultas";
 
 export default class MinhasConsultas extends Component {
+  constructor(props)
+  {
+    super(props);
+   
+    this.state = {
+      idConsulta : 0
+    }
+  }
+
+  passarIdParaMapaConsultas(idConsulta)
+  {
+    this.setState({idConsulta : idConsulta});
+  }
 
   render() {
     return (
@@ -15,8 +28,8 @@ export default class MinhasConsultas extends Component {
         <main>
           <section id="minhasConsultas" className="pa-all-g">
             <h1 className="ma-top-g">Minhas Consultas</h1>
-                <ListarConsultas />
-                <MapaConsultas />
+                <ListarConsultas verNoMapa={this.passarIdParaMapaConsultas.bind(this)} />
+                <MapaConsultas idConsulta={this.state.idConsulta} />
           </section>
         </main>
         <Rodape />

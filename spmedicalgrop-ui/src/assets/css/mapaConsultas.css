@@ -7,7 +7,7 @@
 #consultas__mapa__container {
     width: 99vw;
     height: 60vh;
-
+    
     display: flex;
     flex-direction: column;
     align-items: center;

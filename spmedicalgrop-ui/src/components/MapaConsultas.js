@@ -3,6 +3,7 @@ import "../assets/css/mapaConsultas.css";
 import "../assets/css/style.css";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import api from "../services/api";
+import ListarConsultas from "./ListarConsultas";
 
 const mapStyles = {
   //   width: "80vw",
@@ -23,8 +24,8 @@ export class MapaConsultas extends Component {
 
     this.state = {
       showingInfoWindow: false, //Esconde ou mostra as informações do local.
-      activeMarker: {}, //Mostra o ícone ativado.
-      selectedPlace: {}, //Mostra as informações em cima do local.
+      activeMarker: {}, //Contem as informações do marcador/marker ativado.
+      selectedPlace: {}, //Contem as informações do local.
       listaConsultasLocalidade: []
     };
   }
@@ -43,11 +44,48 @@ export class MapaConsultas extends Component {
     console.log(this.state.listaConsultasLocalidade);
   }
 
+  visualizarNoMapa() {
+    let idConsulta = this.props.idConsulta;
+    
+    console.log("lista de consultaLocalidade", this.state.listaConsultasLocalidade);
+
+    // Should be working
+    // this.state.listaConsultasLocalidade.map(marker => {
+    //   console.log("marker", marker);
+
+    //   if (marker.id === idConsulta)
+    //   {
+    //     this.setState({selectedPlace : {
+    //       position: {
+    //         lat: marker.latitude,
+    //         lng: marker.longitude
+    //       }
+    //     }})
+    //   }
+    // })
+
+    // this.state.listaConsultasLocalidade.map(marker => {
+    //   if (marker.id == this.props.idConsulta) {
+    //     let place = {
+    //       position: {
+    //         lat: marker.latitude,
+    //         lng: marker.longitude
+    //       }
+    //     };
+
+    //     this.setState({ selectedPlace: place });
+    //   }
+    // });
+
+
+    console.log("deu bom")
+  }
+
   onMarkerClick = (props, marker, e) => {
     // Check code
     // console.log("e", e);
-    // console.log("props", props);
-    // console.log("marker", marker);
+    console.log("props", props);
+    console.log("marker", marker);
     // console.log("props.id", props.id);
 
     this.setState({
@@ -58,7 +96,7 @@ export class MapaConsultas extends Component {
 
     // Check code
     // console.log("selected", this.state.selectedPlace);
-    // console.log("activeMarker", this.state.activeMarker);
+    console.log("activeMarker", this.state.activeMarker);
 
     let newList = [];
 
@@ -127,6 +165,11 @@ export class MapaConsultas extends Component {
     return (
       <div id="consultas__mapa__container" className="pa-all-g">
         <h2>Localização</h2>
+        {this.props.idConsulta !== 0
+          ? this.visualizarNoMapa()
+          : () => {
+            console.log("deu ruim")
+          }}
 
         <div className="ma-top-m" id="consultas__mapa_Map">
           <Map
@@ -140,30 +183,28 @@ export class MapaConsultas extends Component {
               lng: -46.6483345
             }}
           >
-            {this.state.listaConsultasLocalidade.map(
-              (consultaLocalidade, index) => {
-                return (
-                  <Marker
-                    onClick={this.onMarkerClick.bind(this)}
-                    id={consultaLocalidade.id}
-                    especialidade={consultaLocalidade.especialidade}
-                    medicoNome={consultaLocalidade.medicoNome}
-                    medicoEmail={consultaLocalidade.medicoEmail}
-                    pacienteEmail={consultaLocalidade.pacienteEmail}
-                    pacienteNome={consultaLocalidade.pacienteNome}
-                    descricao={consultaLocalidade.descricao}
-                    status={consultaLocalidade.status}
-                    data={consultaLocalidade.dataConsulta}
-                    preco={consultaLocalidade.preco}
-                    position={{
-                      lat: consultaLocalidade.latitude,
-                      lng: consultaLocalidade.longitude
-                    }}
-                    name={consultaLocalidade.especialidade}
-                  />
-                );
-              }
-            )}
+            {this.state.listaConsultasLocalidade.map(consultaLocalidade => {
+              return (
+                <Marker
+                  onClick={this.onMarkerClick.bind(this)}
+                  id={consultaLocalidade.id}
+                  especialidade={consultaLocalidade.especialidade}
+                  medicoNome={consultaLocalidade.medicoNome}
+                  medicoEmail={consultaLocalidade.medicoEmail}
+                  pacienteEmail={consultaLocalidade.pacienteEmail}
+                  pacienteNome={consultaLocalidade.pacienteNome}
+                  descricao={consultaLocalidade.descricao}
+                  status={consultaLocalidade.status}
+                  data={consultaLocalidade.dataConsulta}
+                  preco={consultaLocalidade.preco}
+                  name={consultaLocalidade.especialidade}
+                  position={{
+                    lat: consultaLocalidade.latitude,
+                    lng: consultaLocalidade.longitude
+                  }}
+                />
+              );
+            })}
 
             <InfoWindow
               marker={this.state.activeMarker}
