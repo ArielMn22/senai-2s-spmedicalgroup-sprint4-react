@@ -4,6 +4,17 @@
     box-sizing: border-box;
 }
 
+.locationIcon img {
+    height: 30px;
+    transition: all .5s;
+    cursor: pointer;
+}
+
+.locationIcon img:hover {
+    transform: scale(1.5);
+    transform:rotateZ(360deg);
+}
+
 /* Mudando cor da top bar */
 #top-bar {
     color: black;

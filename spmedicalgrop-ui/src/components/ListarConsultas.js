@@ -3,6 +3,7 @@ import api from "../services/api";
 import "../assets/css/style.css";
 import ConsultasAccordion from "./ConsultasAccordion";
 import { MapaConsultas } from "./MapaConsultas";
+import locationIcon from '../assets/imgs/location-pin.png';
 
 export default class ListarConsultas extends Component {
   constructor() {
@@ -276,12 +277,12 @@ export default class ListarConsultas extends Component {
                         <td style={{ color: "#2393ff" }}>{consulta.status}</td>
                       )}
                       {consulta.latitude != null ? (
-                        <td onClick={() => {
+                        <td className="locationIcon" onClick={() => {
                           console.log("funciona!");
                           console.log(consulta.id);
                           this.props.verNoMapa(consulta.id);
                         }}>
-                          Mapa
+                          <img src={locationIcon}/>
                         </td>
                       ) : (
                         <td> ‏‏‎ </td> // Invisible character

@@ -4,10 +4,12 @@ import "../assets/css/style.css";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import api from "../services/api";
 import ListarConsultas from "./ListarConsultas";
+import scrollToElement from "scroll-to-element";
 
 const mapStyles = {
   //   width: "80vw",
   //   height: "50vh"
+  borderRadius: 5,
   position: "absolute",
   top: 0,
   left: 0,
@@ -26,8 +28,12 @@ export class MapaConsultas extends Component {
       showingInfoWindow: false, //Esconde ou mostra as informações do local.
       activeMarker: {}, //Contem as informações do marcador/marker ativado.
       selectedPlace: {}, //Contem as informações do local.
-      listaConsultasLocalidade: []
+      listaConsultasLocalidade: [],
+
+      mapaDiv: {}
     };
+
+    this.mapa = React.createRef();
   }
 
   configurarConsultas() {
@@ -42,43 +48,6 @@ export class MapaConsultas extends Component {
 
     this.setState({ listaConsultasLocalidade: lista });
     console.log(this.state.listaConsultasLocalidade);
-  }
-
-  visualizarNoMapa() {
-    let idConsulta = this.props.idConsulta;
-    
-    console.log("lista de consultaLocalidade", this.state.listaConsultasLocalidade);
-
-    // Should be working
-    // this.state.listaConsultasLocalidade.map(marker => {
-    //   console.log("marker", marker);
-
-    //   if (marker.id === idConsulta)
-    //   {
-    //     this.setState({selectedPlace : {
-    //       position: {
-    //         lat: marker.latitude,
-    //         lng: marker.longitude
-    //       }
-    //     }})
-    //   }
-    // })
-
-    // this.state.listaConsultasLocalidade.map(marker => {
-    //   if (marker.id == this.props.idConsulta) {
-    //     let place = {
-    //       position: {
-    //         lat: marker.latitude,
-    //         lng: marker.longitude
-    //       }
-    //     };
-
-    //     this.setState({ selectedPlace: place });
-    //   }
-    // });
-
-
-    console.log("deu bom")
   }
 
   onMarkerClick = (props, marker, e) => {
@@ -96,23 +65,24 @@ export class MapaConsultas extends Component {
 
     // Check code
     // console.log("selected", this.state.selectedPlace);
-    console.log("activeMarker", this.state.activeMarker);
+    // console.log("activeMarker", this.state.activeMarker);
 
-    let newList = [];
+    // Mostra info individual
+    // let newList = [];
 
-    this.state.listaConsultasLocalidade.map((consulta, i) => {
-      if (consulta.id == props.id) {
-        consulta.mostraInfo = true;
+    // this.state.listaConsultasLocalidade.map((consulta, i) => {
+    //   if (consulta.id == props.id) {
+    //     consulta.mostraInfo = true;
 
-        // Check code
-        // console.log("consulta.mostraInfo", consulta.mostraInfo);
-      }
+    //     // Check code
+    //     // console.log("consulta.mostraInfo", consulta.mostraInfo);
+    //   }
 
-      newList.push(consulta);
-    });
+    //   newList.push(consulta);
+    // });
 
-    this.setState({ listaConsultasLocalidade: newList });
-    console.log("Listaaa", this.state.listaConsultasLocalidade);
+    // this.setState({ listaConsultasLocalidade: newList });
+    // console.log("Listaaa", this.state.listaConsultasLocalidade);
   };
 
   onClose = props => {
@@ -151,6 +121,7 @@ export class MapaConsultas extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     api
       .consultasLocalidade()
       .ListarConsultasLocalidade()
@@ -159,22 +130,63 @@ export class MapaConsultas extends Component {
         console.log(this.state.listaConsultasLocalidade);
         this.configurarConsultas();
       });
+
+    this.setState({
+      mapaDiv: document.querySelector("#consultas__mapa__container")
+    });
   }
+
+  componentDidUpdate(prevProps) {
+    console.log("prevProps", prevProps);
+    console.log("prevProps.IdConsulta", prevProps.idConsulta);
+
+    if (this.props.idConsulta !== prevProps.idConsulta) {
+      this.state.listaConsultasLocalidade.map(marker => {
+        if (marker.id === this.props.idConsulta) {
+          this.setState({
+            selectedPlace: {
+              position: {
+                lat: marker.latitude,
+                lng: marker.longitude
+              }
+            }
+          });
+        }
+      });
+      scrollToElement(this.state.mapaDiv);
+    } else if (this.props.idConsulta === prevProps.idConsulta && this.props.idConsulta !== 0)
+    {
+      scrollToElement(this.state.mapaDiv);
+    }
+  }
+
+  // componentWillReceiveProps() {
+  //   this.state.listaConsultasLocalidade.map(marker => {
+  //     if (marker.id === this.props.idConsulta) {
+  //       this.setState({
+  //         selectedPlace: {
+  //           position: {
+  //             lat: marker.latitude,
+  //             lng: marker.longitude
+  //           }
+  //         }
+  //       });
+  //     }
+  //   });
+
+  // scrollToElement(this.state.mapaDiv);
+  // }
 
   render() {
     return (
       <div id="consultas__mapa__container" className="pa-all-g">
         <h2>Localização</h2>
-        {this.props.idConsulta !== 0
-          ? this.visualizarNoMapa()
-          : () => {
-            console.log("deu ruim")
-          }}
 
         <div className="ma-top-m" id="consultas__mapa_Map">
           <Map
+            ref={this.mapa}
             google={this.props.google}
-            zoom={3}
+            zoom={15}
             center={this.state.selectedPlace.position}
             style={mapStyles}
             onClick={this.onMapClicked.bind(this)}
