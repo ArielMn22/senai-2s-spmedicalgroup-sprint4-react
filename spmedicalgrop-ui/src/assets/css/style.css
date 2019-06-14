@@ -210,6 +210,12 @@
   color: black;
 }
 
+#coordinatesMap {
+  height: 50vh;
+  width: 100%;
+  position: relative;
+}
+
 .select-round {
   position: relative;
 }

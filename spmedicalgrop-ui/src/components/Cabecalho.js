@@ -202,7 +202,7 @@ class Cabecalho extends Component {
           <header>
             <nav id="top-bar" className="degrade">
               <div id="logo" className="flex-container">
-                <Link to="index.html">
+                <Link to="/">
                   <div className="logo-img">
                     <img src={Logo} alt="Logo da SP Medical Group" />
                   </div>

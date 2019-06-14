@@ -1,10 +1,14 @@
-import React, { Component } from "react";
-import Cabecalho from "../../components/Cabecalho";
-import Rodape from "../../components/Rodape";
 import api from "../../services/api";
+import React, { Component } from "react";
+import Rodape from "../../components/Rodape";
+import Cabecalho from "../../components/Cabecalho";
 import ModalAlert from "../../components/ModalAlert";
+import { Map, GoogleApiWrapper } from "google-maps-react";
+import Geocode from "react-geocode";
+const API_KEY = "AIzaSyANj9lOYeUgYwgzgm1FMYn7_NwfqWUgiME";
+Geocode.setApiKey(API_KEY);
 
-export default class CadastrarConsulta extends Component {
+export class CadastrarConsulta extends Component {
   constructor() {
     super();
 
@@ -25,8 +29,23 @@ export default class CadastrarConsulta extends Component {
       longitude: "",
 
       isSucecssful: false,
-      modalAlert: false
+      modalAlert: false,
+      // coordinates: {},
+      address: ""
     };
+  }
+
+  getCoordinates() {
+    // Get latidude & longitude from address.
+    Geocode.fromAddress(this.state.address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   onModalClick() {
@@ -93,6 +112,18 @@ export default class CadastrarConsulta extends Component {
 
   consultaPost(event) {
     event.preventDefault();
+
+    // Get latidude & longitude from address.
+    Geocode.fromAddress(this.state.address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        this.setState({ latitude: lat, longitude: lng });
+        console.log("state: lat, lng", this.state.latitude, this.state.longitude);
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     let consultaViewModel = {
       consulta: {
@@ -202,7 +233,7 @@ export default class CadastrarConsulta extends Component {
                   <span className="inpt-label">Data da consulta</span>
                 </label>
 
-                <label className="inpt-round">
+                {/* <label className="inpt-round">
                   <input
                     className="medio"
                     id="inpt-round"
@@ -226,7 +257,7 @@ export default class CadastrarConsulta extends Component {
                     onChange={this.atualizaEstado.bind(this)}
                   />
                   <span className="inpt-label">Longitude</span>
-                </label>
+                </label> */}
 
                 <label className="inpt-round">
                   <input
@@ -281,6 +312,42 @@ export default class CadastrarConsulta extends Component {
                   <span className="text-label">Observações</span>
                 </label>
 
+                <label className="inpt-round">
+                  <input
+                    className="grande"
+                    id="inpt-round"
+                    name="address"
+                    type="text"
+                    min="1"
+                    placeholder="&nbsp;"
+                    value={this.state.address}
+                    onChange={this.atualizaEstado.bind(this)}
+                  />
+                  <span className="inpt-label">Endereço</span>
+                </label>
+
+                <div id="coordinatesMap">
+                  <Map
+                    apiKey={API_KEY}
+                    google={this.props.google}
+                    zoom={15}
+                    style={{ height: "100%", width: "100%", borderRadius: 5 }}
+                    center={{
+                      lat: this.state.latitude,
+                      lng: this.state.longitude
+                    }}
+                    initialCenter={{
+                      lat: -23.5364933,
+                      lng: -46.6483345
+                    }}
+                    coordinates={true}
+                    // onCenterChanged={e => {
+                    //   this.setState({ coordinates: e });
+                    //   console.log(this.state.coordinates);
+                    // }}
+                  />
+                </div>
+
                 <label>
                   {/* <button action="submit" className="green-btn">
                     Cadastrar
@@ -290,6 +357,11 @@ export default class CadastrarConsulta extends Component {
                     value="Cadastrar"
                     type="submit"
                   />
+                  {/* <input
+                    className="green-btn"
+                    value="Endereco"
+                    onClick={this.getCoordinates.bind(this)}
+                  /> */}
                 </label>
               </form>
             </div>
@@ -300,3 +372,7 @@ export default class CadastrarConsulta extends Component {
     );
   }
 }
+
+export default GoogleApiWrapper({
+  // apiKey: 'Empty for development purposes.'
+})(CadastrarConsulta);
