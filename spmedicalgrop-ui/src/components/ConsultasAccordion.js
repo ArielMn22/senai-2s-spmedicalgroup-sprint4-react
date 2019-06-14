@@ -70,7 +70,15 @@ class ConsultasAccordion extends Component {
     consulta.edit = !consulta.edit;
 
     this.setState({ consultaAntiga: consulta });
-    this.setState({ novoStatus : consulta.status, novaDescricao : consulta.descricao}); // Preenche os locais para que sejam alterados
+
+    let idStatus;
+    this.state.listaStatus.map(status => {
+      if (status.nome == consulta.status){
+        idStatus = status.id;
+      }
+    })
+
+    this.setState({ novoStatus : idStatus, novaDescricao : consulta.descricao}); // Preenche os locais para que sejam alterados
   }
 
   atualizaEstadoStatus(event) {

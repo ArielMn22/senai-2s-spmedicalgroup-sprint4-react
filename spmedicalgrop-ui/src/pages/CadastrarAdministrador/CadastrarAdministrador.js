@@ -14,20 +14,14 @@ export default class CadastrarPaciente extends Component {
       email: "",
       senha: "",
       telefone: "",
-      modalAlert: 0,
-      prevModalAlert: 0
+      modalAlert: false,
+      isSuccessful: false
     };
   }
 
-  showModal(event) 
+  onModalClick()
   {
-    event.preventDefault();
-
-    this.setState({modalAlert : this.state.modalAlert + 1});
-
-    console.log("modalAlert", this.state.modalAlert)
-    console.log("prevModalAlert", this.state.prevModalAlert)
-    console.log("deu")
+    this.setState({modalAlert: false});
   }
 
   cadastrarUsuario(event) {
@@ -47,7 +41,12 @@ export default class CadastrarPaciente extends Component {
       .administrador(administradorFormData)
       .cadastrarAdministrador()
       .then(() => {
-        // this.setState({modalAlert : this.state.modalAlert + 1});
+        this.setState({ isSuccessful: true });
+        this.setState({modalAlert : true});
+      })
+      .catch(() => {
+        this.setState({ isSuccessful: false });
+        this.setState({modalAlert : true});
       });
   }
 
@@ -71,13 +70,21 @@ export default class CadastrarPaciente extends Component {
     return (
       <div>
         <Cabecalho />
-        {this.state.prevModalAlert != this.state.modalAlert && (
-          <ModalAlert
-            titulo="Sucesso!"
-            descricao="Administrador cadastrado com sucesso!"
-            trigger={this.state.modalAlert}
-          />
-        )}
+        {this.state.modalAlert ? (
+          this.state.isSuccessful ? (
+            <ModalAlert
+              titulo="Sucesso!"
+              decricao="Usuário administrador cadastrado com sucesso!"
+              onClick={this.onModalClick.bind(this)}
+            />
+          ) : (
+            <ModalAlert
+              titulo="Erro"
+              descricao="Usuário administrador não pode ser cadastrado, verifique os campos e tente novamente."
+              onClick={this.onModalClick.bind(this)}
+            />
+          )
+        ) : null}
         <main>
           <section id="cadastrarConsulta" class="pa-all-g">
             <h1 class="ma-top-gg">Cadastrar Administrador</h1>
@@ -132,9 +139,6 @@ export default class CadastrarPaciente extends Component {
                   <button action="submit" class="green-btn">
                     Cadastrar
                   </button><br/>
-                  <button onClick={this.showModal.bind(this)} class="green-btn">
-                    Modal
-                  </button>
                 </label>
               </form>
             </div>

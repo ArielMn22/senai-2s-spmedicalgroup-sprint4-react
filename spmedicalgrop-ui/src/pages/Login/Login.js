@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import Cabecalho from "../../components/Cabecalho";
-import Rodape from "../../components/Rodape";
 import "../../assets/css/login.css";
 import "../../assets/css/style.css";
 import api from "../../services/api";
 import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import Rodape from "../../components/Rodape";
+import Cabecalho from "../../components/Cabecalho";
+import ModalAlert from "../../components/ModalAlert";
 
 export default class Login extends Component {
   constructor() {
@@ -12,7 +13,9 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      senha: ""
+      senha: "",
+      modalAlert: false,
+      isSuccessful: false
     };
   }
 
@@ -33,27 +36,14 @@ export default class Login extends Component {
       .Login()
       .then(data => {
         localStorage.setItem("spmedicalgroup-usuario", data.data.token);
+        this.setState({ isSuccessful: true });
+        this.setState({ modalAlert: true });
         this.props.history.push("/minhasconsultas");
       })
-      .catch(erro => console.log(erro));
-
-    // Axios.post(
-    //   "http://192.168.3.143:5000/api/login",
-    //   {
-    //     email: _email,
-    //     senha: _senha
-    //   },
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     }
-    //   }
-    // )
-    //   .then(data => {
-    //     localStorage.setItem("spmedicalgroup-usuario", data.data.token);
-    //     this.props.history.push("/minhasconsultas");
-    //   })
-    //   .catch(erro => console.log(erro));
+      .catch(() => {
+        this.setState({ isSuccessful: false });
+        this.setState({ modalAlert: true });
+      });
   }
 
   atualizaEstadoEmail(event) {
@@ -64,10 +54,29 @@ export default class Login extends Component {
     this.setState({ senha: event.target.value });
   }
 
+  onModalClick() {
+    this.setState({ modalAlert: false }); // Resetar o estado do modal
+  }
+
   render() {
     return (
       <div>
         <Cabecalho />
+        {this.state.modalAlert ? (
+          this.state.isSuccessful ? (
+            <ModalAlert
+              titulo="Sucesso!"
+              descricao="Login efetuado com sucesso!"
+              onClick={this.onModalClick.bind(this)}
+            />
+          ) : (
+            <ModalAlert
+              titulo="Erro"
+              descricao="O login não foi efetuado, verifique seu e-mail e sua senha."
+              onClick={this.onModalClick.bind(this)}
+            />
+          )
+        ) : null}
         <main>
           <section id="login__banner">
             <div className="login__area">

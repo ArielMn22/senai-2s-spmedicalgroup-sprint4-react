@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Cabecalho from "../../components/Cabecalho";
 import Rodape from "../../components/Rodape";
 import api from "../../services/api";
+import ModalAlert from "../../components/ModalAlert";
 
 export default class CadastrarConsulta extends Component {
   constructor() {
@@ -22,7 +23,14 @@ export default class CadastrarConsulta extends Component {
 
       latitude: "",
       longitude: "",
+
+      isSucecssful: false,
+      modalAlert: false
     };
+  }
+
+  onModalClick() {
+    this.setState({ modalAlert: false }); // Resetar o estado do modal
   }
 
   atualizaEstadoPaciente(event) {
@@ -106,14 +114,37 @@ export default class CadastrarConsulta extends Component {
     api
       .consultas(consultaViewModel)
       .cadastrarConsulta()
-      .then(data => console.log(data))
-      .catch(erro => console.log(erro));
+      .then(data => {
+        this.setState({ isSuccessful: true });
+        this.setState({ modalAlert: true });
+        console.log(data);
+      })
+      .catch(erro => {
+        this.setState({ isSuccessful: false });
+        this.setState({ modalAlert: true });
+        console.log(erro);
+      });
   }
 
   render() {
     return (
       <div>
         <Cabecalho />
+        {this.state.modalAlert ? (
+          this.state.isSuccessful ? (
+            <ModalAlert
+              titulo="Sucesso!"
+              descricao="Consulta cadastrada com sucesso!"
+              onClick={this.onModalClick.bind(this)}
+            />
+          ) : (
+            <ModalAlert
+              titulo="Erro"
+              descricao="Consulta não cadastrada, verifique os campos e tente novamente."
+              onClick={this.onModalClick.bind(this)}
+            />
+          )
+        ) : null}
         <main>
           <section id="cadastrarConsulta" className="pa-all-g">
             <h1 className="ma-top-g">Cadastrar consulta</h1>

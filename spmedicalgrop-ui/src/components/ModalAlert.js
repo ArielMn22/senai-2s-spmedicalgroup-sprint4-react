@@ -12,7 +12,10 @@ export default class ModalAlert extends Component {
 
   onDivClick() {
     console.log("eita");
+    
     this.setState({active : false});
+
+    this.props.onClick();
   }
 
   componentWillReceiveProps()

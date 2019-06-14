@@ -3,6 +3,7 @@ import "../../assets/css/cadastrarconsulta.css";
 import Cabecalho from "../../components/Cabecalho";
 import Rodape from "../../components/Rodape";
 import api from "../../services/api";
+import ModalAlert from '../../components/ModalAlert';
 
 export default class CadastrarMedico extends Component {
   constructor() {
@@ -15,8 +16,17 @@ export default class CadastrarMedico extends Component {
       telefone: "",
       especialidade: "",
       crm: "",
-      listaEspecialidades: []
+      listaEspecialidades: [],
+
+      isSuccessful: false,
+      modalAlert: false
     };
+  }
+
+  onModalClick()
+  {
+    this.setState({modalAlert: false});
+    this.setState({isSuccessful: null});
   }
 
   componentDidMount() {
@@ -26,12 +36,14 @@ export default class CadastrarMedico extends Component {
       .then(data => {
         this.setState({ listaEspecialidades: data.data });
       })
-      .catch(erro => console.log(erro));
+      .catch(erro => {
+        console.log(erro);
+      });
   }
 
   cadastrarMedico(event) {
     event.preventDefault();
-    
+
     let medicoFormData = new FormData();
 
     // Setando valores do FormData
@@ -48,7 +60,17 @@ export default class CadastrarMedico extends Component {
     medicoFormData.set("idTipoUsuario", 2);
     medicoFormData.set("idClinica", 1);
 
-    api.medicos(medicoFormData).CadastrarMedico();
+    api
+      .medicos(medicoFormData)
+      .CadastrarMedico()
+      .then(() => {
+        this.setState({ isSuccessful: true });
+        this.setState({ modalAlert: true });
+      })
+      .catch(() => {
+        this.setState({ isSuccessful: false });
+        this.setState({ modalAlert: true });
+      });
   }
 
   atualizaNome(event) {
@@ -79,6 +101,21 @@ export default class CadastrarMedico extends Component {
     return (
       <div>
         <Cabecalho />
+        {this.state.modalAlert ? (
+          this.state.isSuccessful ? (
+            <ModalAlert
+              titulo="Sucesso!"
+              descricao="Médico cadastrado com sucesso!"
+              onClick={this.onModalClick.bind(this)}
+            />
+          ) : (
+            <ModalAlert
+              titulo="Erro"
+              descricao="o médico não pode ser cadastrado, verifique os campos e tente novamente."
+              onClick={this.onModalClick.bind(this)}
+            />
+          )
+        ) : null}
         <main>
           <section id="cadastrarConsulta" class="pa-all-g">
             <h1 class="ma-top-gg">Cadastrar médico</h1>
@@ -137,7 +174,7 @@ export default class CadastrarMedico extends Component {
                     id="select-round"
                   >
                     <option>Selecione</option>
-                    {this.state.listaEspecialidades.map((especialidade) => {
+                    {this.state.listaEspecialidades.map(especialidade => {
                       return (
                         <option value={especialidade.id}>
                           {especialidade.nome}
