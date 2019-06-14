@@ -3,66 +3,87 @@ import "../../assets/css/cadastrarconsulta.css";
 import Cabecalho from "../../components/Cabecalho";
 import Rodape from "../../components/Rodape";
 import api from "../../services/api";
+import ModalAlert from "../../components/ModalAlert";
 
 export default class CadastrarPaciente extends Component {
+  constructor() {
+    super();
 
-    constructor()
-    {
-        super();
+    this.state = {
+      nome: "",
+      email: "",
+      senha: "",
+      telefone: "",
+      modalAlert: 0,
+      prevModalAlert: 0
+    };
+  }
 
-        this.state = {
-            nome : '',
-            email : '',
-            senha : '',
-            telefone : '',
-        }
-    }
-    
-    cadastrarUsuario()
-    {
-        let administradorFormData = new FormData();
+  showModal(event) 
+  {
+    event.preventDefault();
 
-        // Setando valores do FormData
-        administradorFormData.set('nome', this.state.nome);
-        administradorFormData.set('email', this.state.email);
-        administradorFormData.set('senha', this.state.senha);
-        administradorFormData.set('telefone', this.state.telefone);
-        administradorFormData.set('idTipoUsuario', 1);
-        administradorFormData.set('idClinica', 1);
+    this.setState({modalAlert : this.state.modalAlert + 1});
 
-        api.administrador(administradorFormData).cadastrarAdministrador();
-    }
+    console.log("modalAlert", this.state.modalAlert)
+    console.log("prevModalAlert", this.state.prevModalAlert)
+    console.log("deu")
+  }
 
-    atualizaNome(event)
-    {
-        this.setState({ nome : event.target.value });
-    }
-    
-    atualizaSenha(event)
-    {
-        this.setState({ senha : event.target.value });
-    }
-    
-    atualizaEmail(event)
-    {
-        this.setState({ email : event.target.value });
-    }
+  cadastrarUsuario(event) {
+    event.preventDefault();
 
-    atualizaTelefone(event)
-    {
-        this.setState({ telefone : event.target.value });
-    }
+    let administradorFormData = new FormData();
+
+    // Setando valores do FormData
+    administradorFormData.set("nome", this.state.nome);
+    administradorFormData.set("email", this.state.email);
+    administradorFormData.set("senha", this.state.senha);
+    administradorFormData.set("telefone", this.state.telefone);
+    administradorFormData.set("idTipoUsuario", 1);
+    administradorFormData.set("idClinica", 1);
+
+    api
+      .administrador(administradorFormData)
+      .cadastrarAdministrador()
+      .then(() => {
+        // this.setState({modalAlert : this.state.modalAlert + 1});
+      });
+  }
+
+  atualizaNome(event) {
+    this.setState({ nome: event.target.value });
+  }
+
+  atualizaSenha(event) {
+    this.setState({ senha: event.target.value });
+  }
+
+  atualizaEmail(event) {
+    this.setState({ email: event.target.value });
+  }
+
+  atualizaTelefone(event) {
+    this.setState({ telefone: event.target.value });
+  }
 
   render() {
     return (
       <div>
         <Cabecalho />
+        {this.state.prevModalAlert != this.state.modalAlert && (
+          <ModalAlert
+            titulo="Sucesso!"
+            descricao="Administrador cadastrado com sucesso!"
+            trigger={this.state.modalAlert}
+          />
+        )}
         <main>
           <section id="cadastrarConsulta" class="pa-all-g">
             <h1 class="ma-top-gg">Cadastrar Administrador</h1>
             <div class="formulario pa-all-g ma-top-m">
               <form onSubmit={this.cadastrarUsuario.bind(this)} action="#">
-              <label class="inpt-round">
+                <label class="inpt-round">
                   <input
                     class="grande"
                     id="inpt-round"
@@ -110,6 +131,9 @@ export default class CadastrarPaciente extends Component {
                 <label>
                   <button action="submit" class="green-btn">
                     Cadastrar
+                  </button><br/>
+                  <button onClick={this.showModal.bind(this)} class="green-btn">
+                    Modal
                   </button>
                 </label>
               </form>

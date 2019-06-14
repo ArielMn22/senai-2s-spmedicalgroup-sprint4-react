@@ -5,20 +5,19 @@ import Rodape from "../../components/Rodape";
 import Cabecalho from "../../components/Cabecalho";
 import ListarConsultas from "../../components/ListarConsultas";
 import MapaConsultas from "../../components/MapaConsultas";
+import ModalAlert from "../../components/ModalAlert";
 
 export default class MinhasConsultas extends Component {
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
-   
+
     this.state = {
-      idConsulta : 0
-    }
+      idConsulta: 0
+    };
   }
 
-  passarIdParaMapaConsultas(idConsulta)
-  {
-    this.setState({idConsulta : idConsulta});
+  passarIdParaMapaConsultas(idConsulta) {
+    this.setState({ idConsulta: idConsulta });
   }
 
   render() {
@@ -28,8 +27,11 @@ export default class MinhasConsultas extends Component {
         <main>
           <section id="minhasConsultas" className="pa-all-g">
             <h1 className="ma-top-g">Minhas Consultas</h1>
-                <ListarConsultas verNoMapa={this.passarIdParaMapaConsultas.bind(this)} />
-                <MapaConsultas idConsulta={this.state.idConsulta} />
+
+            <ListarConsultas
+              verNoMapa={this.passarIdParaMapaConsultas.bind(this)}
+            />
+            <MapaConsultas idConsulta={this.state.idConsulta} />
           </section>
         </main>
         <Rodape />
